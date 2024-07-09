@@ -4,7 +4,7 @@ import AddTask from "./components/addTask";
 import { Layout, Button, message } from "antd";
 
 import { Amplify } from "aws-amplify";
-import config from "./amplifyconfiguration.json";
+import config from "./aws-exports";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { listTodos } from "./graphql/queries";
 import Task from "./components/task";
