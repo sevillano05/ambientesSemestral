@@ -4,15 +4,15 @@ import AddTask from "./components/addTask";
 import { Layout, Button, message } from "antd";
 
 import { Amplify } from "aws-amplify";
-import awsconfig from "./aws-exports";
+import config from "./amplifyconfiguration.json";
 import { Authenticator } from "@aws-amplify/ui-react";
 import { listTodos } from "./graphql/queries";
 import Task from "./components/task";
 import { generateClient } from "aws-amplify/api";
 
-const clientTasks = generateClient();
+const client = generateClient();
 
-Amplify.configure(awsconfig);
+Amplify.configure(config);
 
 const { Header, Content, Footer } = Layout;
 
@@ -22,14 +22,16 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const allTasks = await clientTasks.graphql({ query: listTodos });
+      const allTasks = await client.graphql({ query: listTodos });
+      
       const listTasks = allTasks.data.listTodos.items;
       setTasks(listTasks);
     } catch (error) {
       messageApi.open({
         type: "error",
-        content: "error fetching tasks: " + error.errors[0].message,
+        content: "error fetching tasks",
       });
+      console.log(error);
     }
   };
 
@@ -41,43 +43,32 @@ function App() {
     <>
       {contextHolder}
       <Layout>
-        <Content
-          style={{
-            alignSelf: "center ",
-            height: "715px",
-            alignContent: "center",
-          }}
-        >
-          <Authenticator>
-            {({ signOut, user }) => (
-              <div>
-                <Header
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <h1 style={{ color: "white" }}>My Task Tracker - {user.username}</h1>
-                  <Button type="primary" onClick={signOut}>
-                    Cerrar Session
-                  </Button>
-                </Header>
-                <Content style={{ height: "490px" }}>
-                  <div className="task-list">
-                    <h2>Tasks</h2>
-                    {tasks.map((task) => (
-                      <Task key={task.id} task={task} />
-                    ))}
-                  </div>
-                </Content>
-                <Footer>
-                  <AddTask />
-                </Footer>
-              </div>
-            )}
-          </Authenticator>
-        </Content>
+        <Authenticator>
+          {({ signOut, user }) => (
+            <div>
+              <Header
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <h1 style={{ color: "white" }}>
+                  My Task Tracker - {user.username}
+                </h1>
+                <Button type="primary" onClick={signOut}>
+                  Cerrar Session
+                </Button>
+              </Header>
+              <Content style={{ height: "490px" }}>
+                <Task data={tasks.filter((data)=>data.owner=user.username)} />
+              </Content>
+              <Footer>
+                <AddTask />
+              </Footer>
+            </div>
+          )}
+        </Authenticator>
       </Layout>
     </>
   );

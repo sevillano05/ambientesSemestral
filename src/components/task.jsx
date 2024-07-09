@@ -1,12 +1,16 @@
-import React from 'react';
+import React from "react";
+import { Table } from "antd";
 
-const Task = ({ task }) => {
+const Column = [
+  { title: "Task", dataIndex: "taskName", key: "taskName" , filtered:true, sorter:true},
+  { title: "Descripcion", dataIndex: "description", key: "description" },
+  { title: "categoria", dataIndex: "catergory", key: "catergory" , filtered:true, sorter:true},
+];
+
+const Task = (props) => {
   return (
-    <div className="task">
-      <p className={task.completed ? 'completed' : ''}>{task.title}</p>
-      <button onClick={() => { /* Implement toggle completion functionality */ }}>
-        {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
-      </button>
+    <div>
+      <Table dataSource={props.data} columns={Column} />
     </div>
   );
 };
