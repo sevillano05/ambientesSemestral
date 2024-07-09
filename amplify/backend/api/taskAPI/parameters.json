@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "taskAPI",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authmytasktrackere20eba16",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

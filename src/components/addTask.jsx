@@ -25,8 +25,8 @@ const AddTask = () => {
   return (
 
       <Form onFinish={handleSubmit}>
-        <Form.Item label="Field A">
-            <Input placeholder="input placeholder" onChange={setTitle}/>
+        <Form.Item label="new task?">
+            <Input id='task' placeholder="input placeholder" onChange={setTitle}/>
         </Form.Item>
        <Form.Item > 
         <Button type="primary" htmlType='submit'>submit</Button>
