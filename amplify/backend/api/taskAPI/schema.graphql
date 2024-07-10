@@ -7,10 +7,10 @@ type Todo
   @model
   @auth(rules: [{ allow: public, operations: [read] }, { allow: owner, operations: [read, create, update, delete] }]) {
   id: ID!
-  taskName: String!
-  description: String!
-  state: String!
-  catergory: String!
-  important: Boolean!
+  taskName: String
+  description: String
+  state: String
+  catergory: String
+  important: Boolean
   owner: String!
 }

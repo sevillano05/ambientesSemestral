@@ -9,7 +9,7 @@ const Column = [
 
 const Task = (props) => {
   return (
-    <div>
+    <div style={{padding:'2rem'}}>
       <Table dataSource={props.data} columns={Column} />
     </div>
   );
